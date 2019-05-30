@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.system.CompanyDao" >
+    <resultMap id="BaseResultMap" type="company" >
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="expiration_date" property="expirationDate" />
+        <result column="address" property="address"/>
+        <result column="license_id" property="licenseId"/>
+        <result column="representative" property="representative"/>
+        <result column="phone" property="phone"/>
+        <result column="industry" property="industry"/>
+        <result column="company_size" property="companySize"/>
+        <result column="remarks" property="remarks"/>
+        <result column="state" property="state"/>
+        <result column="balance" property="balance"/>
+        <result column="city" property="city"/>
+    </resultMap>
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from ss_company
+    </select>
+    <select id="findCount" resultType="int">
+        select count(*)from ss_company
+    </select>
+    <select id="findPage" resultMap="BaseResultMap" parameterType="map">
+        select * from ss_company limit  #{startIndex},#{size}
+    </select>
+    <select id="save"  parameterType="company">
+        select * from ss_company limit  #{startIndex},#{size}
+    </select>
+</mapper>

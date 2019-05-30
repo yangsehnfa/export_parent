@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+### java template
+# IntelliJ IDEA Project files
+.idea
+*.iml
+*/*.iml
+*.ipr
+*.iws
+out

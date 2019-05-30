@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <context:component-scan base-package="com.itheima.web"></context:component-scan>
+    <!-- 配置 viewResolver-->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--配置 date 格式转化器 -->
+    <bean id="conversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean id="stringToDateConverter" class="com.itheima.web.converter.StringToDataConverter">
+                    <property name="pattern" value="yyyy-MM-dd"></property>
+                </bean>
+            </set>
+        </property>
+    </bean>
+    <!--配置异常处理器-->
+        <bean id="handlerExceptionResolver"
+              class="com.itheima.web.exception.CustomerExceptionResolver"></bean>
+    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+
+    <!--指定dubbo的服务名称，不能重复-->
+    <dubbo:application name="export_web_manager"></dubbo:application>
+
+    <!--指定注册到zookeeper的地址-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" ></dubbo:registry>
+    <!--指定消费者所在的包-->
+    <dubbo:annotation package="com.itheima.web"></dubbo:annotation>
+    <!-- id 的值是固定的-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置上传文件的最大尺寸为 5MB -->
+        <property name="maxUploadSize">
+            <value>5242880</value>
+        </property>
+    </bean>
+
+</beans>
